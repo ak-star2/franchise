@@ -1,11 +1,985 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Franchise</title>
+    <title>Aura Café | Premium Global Franchise & Artisan Roastery</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           1. MASTER DESIGN SYSTEM VARIABLES
+           ========================================================================== */
+        :root {
+            --primary: #1A110B;
+            --primary-light: #2D1E15;
+            --accent: #D4AF37;
+            --accent-hover: #AA8717;
+            --bg-cream: #FAF6F0;
+            --white: #FFFFFF;
+            --text-dark: #2B231D;
+            --text-muted: #786D65;
+            --card-shadow: 0 20px 40px rgba(26, 17, 11, 0.04);
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            --border-radius: 2px;
+        }
+
+        [data-theme="dark"] {
+            --bg-cream: #0F0A07;
+            --white: #17110E;
+            --text-dark: #F5EFEB;
+            --text-muted: #A69A91;
+            --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            line-height: 1.65;
+            overflow-x: hidden;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        /* ==========================================================================
+           2. STRATEGIC UTILITY GRID ENGINE
+           ========================================================================== */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 0;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 80px;
+            align-items: center;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 18px 36px;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            font-weight: 700;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid transparent;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #1A110B;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            color: #FFFFFF;
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: transparent;
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent);
+            color: #1A110B;
+            transform: translateY(-3px);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 70px;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 1px;
+            background: var(--accent);
+            margin: 20px auto 0;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-style: italic;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+        }
+
+        /* ==========================================================================
+           3. MASTER HEADER AND NAVIGATION
+           ========================================================================== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(26, 17, 11, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 22px 5%;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: var(--accent);
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .logo span { color: #FFFFFF; }
+
+        .nav-menu {
+            display: flex;
+            gap: 35px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #FFFFFF;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .theme-toggle, .cart-trigger, .mobile-toggle {
+            background: none;
+            border: none;
+            color: #FFFFFF;
+            cursor: pointer;
+            font-size: 1.3rem;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover, .cart-trigger:hover {
+            color: var(--accent);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background: var(--accent);
+            color: #1A110B;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 50%;
+        }
+
+        .mobile-toggle { display: none; }
+
+        /* ==========================================================================
+           4. LUXURY PHOTO HERO BACKGROUND SYSTEM
+           ========================================================================== */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #FFFFFF;
+            background-image: linear-gradient(rgba(26, 17, 11, 0.6), rgba(26, 17, 11, 0.85)), 
+                              url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=1920');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .hero-content {
+            max-width: 950px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            margin-bottom: 25px;
+            line-height: 1.15;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.35rem;
+            margin-bottom: 45px;
+            letter-spacing: 2px;
+            font-weight: 300;
+            color: #F5EFEB;
+        }
+
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        /* ==========================================================================
+           5. CARDS & PREMIUM INTERACTIVE FILTERS
+           ========================================================================== */
+        .card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(212, 175, 55, 0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-15px);
+            border-color: var(--accent);
+            box-shadow: 0 30px 60px rgba(26, 17, 11, 0.1);
+        }
+
+        .card-img {
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .card:hover .card-img img {
+            transform: scale(1.06);
+        }
+
+        .card-body {
+            padding: 40px;
+        }
+
+        .card-price {
+            font-size: 1.4rem;
+            font-family: 'Playfair Display', serif;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .filter-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 60px;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            color: var(--text-dark);
+            padding: 14px 28px;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border-radius: var(--border-radius);
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent);
+            color: #1A110B;
+            border-color: var(--accent);
+        }
+
+        /* ==========================================================================
+           6. LIVE FRANCHISE METRICS & CONTEXTUAL APPS
+           ========================================================================== */
+        .metrics-bar {
+            background: var(--primary);
+            color: #FFFFFF;
+            padding: 90px 0;
+            text-align: center;
+            border-top: 1px solid rgba(212, 175, 55, 0.15);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .metric-item h2 {
+            font-size: 4rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .metric-item p {
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: #FAF6F0;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 18px;
+            background: var(--bg-cream);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            color: var(--text-dark);
+            font-family: inherit;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: var(--white);
+        }
+
+        /* ==========================================================================
+           7. MODAL SHOPPING BAG BACKDROP EXTENSION
+           ========================================================================== */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            right: -500px;
+            width: 500px;
+            height: 100vh;
+            background: var(--white);
+            z-index: 2000;
+            box-shadow: -15px 0 50px rgba(0,0,0,0.2);
+            transition: var(--transition);
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-modal.active {
+            right: 0;
+        }
+
+        .cart-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            padding-bottom: 25px;
+            margin-bottom: 25px;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        .cart-items-container {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .cart-footer {
+            border-top: 1px solid rgba(212, 175, 55, 0.15);
+            padding-top: 25px;
+            margin-top: 25px;
+        }
+
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        /* ==========================================================================
+           8. MASTER CORPO FOOTER LAYER
+           ========================================================================== */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: #25D366;
+            color: white;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+            z-index: 999;
+            transition: var(--transition);
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1) rotate(12deg);
+        }
+
+        footer {
+            background: var(--primary);
+            color: #FFFFFF;
+            padding: 120px 0 40px;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 2fr;
+            gap: 60px;
+            margin-bottom: 80px;
+        }
+
+        .footer-heading {
+            color: var(--accent);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 18px;
+        }
+
+        .footer-links a {
+            color: #A69A91;
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 6px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 16px;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            background: rgba(255, 255, 255, 0.03);
+            color: white;
+            border-radius: var(--border-radius);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.85rem;
+            color: #786D65;
+        }
+
+        /* ==========================================================================
+           9. SCALABLE MOBILE RESPONSIVENESS MEDIA QUERIES
+           ========================================================================== */
+        @media (max-width: 992px) {
+            .grid-2, .footer-grid { grid-template-columns: 1fr; gap: 50px; }
+            .mobile-toggle { display: block; }
+            .nav-menu {
+                position: fixed;
+                top: 85px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 85px);
+                background: var(--primary);
+                flex-direction: column;
+                padding: 80px 0;
+                transition: var(--transition);
+            }
+            .nav-menu.active { left: 0; }
+            .hero h1 { font-size: 3.2rem; }
+            .cart-modal { width: 100%; right: -100%; padding: 30px; }
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to Franchise</h1>
+
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">AURA<span>CAFÉ</span></a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#menu" class="nav-link">Menu</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <button class="theme-toggle" aria-label="Toggle Night Mode Layout">🌙</button>
+                <button class="cart-trigger" aria-label="Open Order Slideout">💼 <span class="cart-count">0</span></button>
+                <button class="mobile-toggle" aria-label="Expand Responsive Controls">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="cart-modal">
+        <div class="cart-modal-header">
+            <h3>Your Selected Order</h3>
+            <button class="close-cart">✕</button>
+        </div>
+        <div class="cart-items-container" id="cart-items-target">
+            </div>
+        <div class="cart-footer">
+            <div class="cart-total-row">
+                <span>Subtotal</span>
+                <span id="cart-total-val">$0.00</span>
+            </div>
+            <button class="btn btn-primary" style="width: 100%;" onclick="alert('Order Sent Successfully!')">Checkout & Complete Order</button>
+        </div>
+    </div>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Crafted Coffee, Fresh Moments</h1>
+            <p>An elite turnkey hospitality ecosystem built for modern local patrons and global multi-unit partners.</p>
+            <div class="hero-btns">
+                <a href="#menu" class="btn btn-primary">Explore Menu</a>
+                <a href="#contact" class="btn btn-secondary" style="color: #FFF; border-color: #FFF;">Contact HQ</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" id="about">
+        <div class="grid-2">
+            <div>
+                <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&q=80&w=800" alt="Specialty Interior Spatial Concept Architecture" style="border-radius: var(--border-radius); width:100%; box-shadow: var(--card-shadow);">
+            </div>
+            <div>
+                <h2 class="section-title" style="text-align: left; margin-bottom: 25px;">Institutional Quality, Artisan Scale</h2>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Aura Café bridges the gap between single-origin micro-lot sourcing and rigorous, predictable unit operations. Every location features high-performance architectural metrics engineered for seamless flow and elite aesthetics.</p>
+                <p style="color: var(--text-muted); margin-bottom: 30px;">Our proprietary supply routes directly match international agricultural collectives with localized storefronts, optimizing margins and stability for our growing network of operational outlets.</p>
+                <a href="#menu" class="btn btn-secondary">Explore Quality</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" id="menu">
+        <div class="section-header">
+            <h2 class="section-title">The Master Menu</h2>
+            <p class="section-subtitle">Gourmet configurations calibrated for rapid speed of service and exceptional retail retention.</p>
+        </div>
+
+        <nav class="filter-nav">
+            <button class="filter-btn active" data-filter="all">All Items</button>
+            <button class="filter-btn" data-filter="coffee">Espresso & Brews</button>
+            <button class="filter-btn" data-filter="bakery">Artisan Pastries</button>
+        </nav>
+
+        <div class="grid-3">
+            <div class="card" data-category="coffee">
+                <div class="card-img"><img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=600" alt="Gold Latte Product Profile"></div>
+                <div class="card-body">
+                    <h3>24k Gold Aura Latte</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin: 10px 0 20px;">Double micro-lot espresso, velvet steamed cream, signature Madagascar vanilla essence, real gold flake detailing.</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="card-price">$8.50</span>
+                        <button class="btn btn-primary add-to-cart-btn" data-id="p1" data-name="24k Gold Aura Latte" data-price="8.50" style="padding: 10px 20px; font-size: 0.65rem;">Add to Bag</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-category="coffee">
+                <div class="card-img"><img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&q=80&w=600" alt="Cold Brew Product Profile"></div>
+                <div class="card-body">
+                    <h3>Kyoto Slow Drip Cold Brew</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin: 10px 0 20px;">Slow single-drop continuous ambient extraction running for 18 continuous hours over premium organic cacao-tone beans.</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="card-price">$6.75</span>
+                        <button class="btn btn-primary add-to-cart-btn" data-id="p2" data-name="Kyoto Cold Brew" data-price="6.75" style="padding: 10px 20px; font-size: 0.65rem;">Add to Bag</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-category="bakery">
+                <div class="card-img"><img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&q=80&w=600" alt="Pastry Product Profile"></div>
+                <div class="card-body">
+                    <h3>Pistachio Laminated Croissant</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin: 10px 0 20px;">High-hydration French butter pastry structure infused with imported Sicilian pistachio internal filling glaze paste.</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="card-price">$5.50</span>
+                        <button class="btn btn-primary add-to-cart-btn" data-id="p3" data-name="Pistachio Croissant" data-price="5.50" style="padding: 10px 20px; font-size: 0.65rem;">Add to Bag</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="metrics-bar">
+        <div class="container" style="padding:0;">
+            <div class="grid-3">
+                <div class="metric-item">
+                    <h2 class="counter" data-target="54">0</h2>
+                    <p>Global Outlets</p>
+                </div>
+                <div class="metric-item">
+                    <h2>$1.6M</h2>
+                    <p>Average Unit Volume (AUV)</p>
+                </div>
+                <div class="metric-item">
+                    <h2 class="counter" data-target="100">0</h2>
+                    <p>% Turn-Key Supply Security</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" id="contact" style="border-top: 1px solid rgba(212, 175, 55, 0.15);">
+        <div class="section-header">
+            <h2 class="section-title">Connect with HQ</h2>
+            <p class="section-subtitle">Reach out for guest support channels, partner relations, or corporate media desks.</p>
+        </div>
+        <div class="grid-2">
+            <div style="background: #EAE3D8; border-radius: var(--border-radius); min-height: 380px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;">
+                <div style="text-align: center; padding: 30px; position: relative; z-index: 2;">
+                    <h4 style="margin-bottom: 10px; color: #1A110B;">New York Flagship Head Office</h4>
+                    <p style="font-size: 0.95rem; color: #2D1E15;">742 Brand Avenue, Manhattan, NY 10018<br>Email: office@auracafe.com<br>Tel: +1 (555) 019-2831</p>
+                </div>
+                <div style="position: absolute; width:100%; height:100%; background: rgba(250,246,240,0.88); top:0; left:0; z-index:1;"></div>
+                <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&q=80&w=600" alt="Map Alternative Graphic" style="position: absolute; width:100%; height:100%; object-fit:cover; z-index:0;">
+            </div>
+            <div>
+                <form onsubmit="event.preventDefault(); alert('Message successfully transmitted to corporate support channels.'); this.reset();">
+                    <div class="form-group">
+                        <label>Your Email Address</label>
+                        <input type="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>How Can We Assist Your Venture?</label>
+                        <textarea class="form-control" rows="5" required style="resize:none;"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Route Secure Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <a href="https://wa.me/#" class="whatsapp-float" target="_blank" aria-label="Contact Support via WhatsApp">💬</a>
+
+    <footer>
+        <div class="container" style="padding: 0 0 50px 0;">
+            <div class="footer-grid">
+                <div>
+                    <h3 class="footer-heading">Aura Café</h3>
+                    <p style="color: #A69A91; font-size: 0.95rem;">Architecting high-performance luxury retail coffee spaces and precision operational enterprise models globally.</p>
+                </div>
+                <div>
+                    <h3 class="footer-heading">Ecosystem</h3>
+                    <ul class="footer-links">
+                        <li><a href="#about">Our Story</a></li>
+                        <li><a href="#menu">The Menu</a></li>
+                        <li><a href="#contact">Contact HQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="footer-heading">Legal Intel</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Framework</a></li>
+                        <li><a href="#">Compliance Guidelines</a></li>
+                        <li><a href="#">System Requirements</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="footer-heading">Corporate Briefing</h3>
+                    <p style="color: #A69A91; font-size: 0.9rem; margin-bottom: 15px;">Receive current market development territory briefs directly to your inbox.</p>
+                    <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscription Confirmed.'); this.reset();">
+                        <input type="email" placeholder="Corporate Email" required aria-label="Newsletter Targeting System">
+                        <button class="btn btn-primary" type="submit" style="padding: 12px 20px;">Join</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                © 2026 Aura Café International Inc. All sovereign portfolio rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initSystemTheme();
+            initNavigationEngine();
+            initInteractiveMenuFilter();
+            initShoppingBagEngine();
+            initStatisticalCounters();
+        });
+
+        /* --- Global Workspace Layout Color Theme Logic --- */
+        function initSystemTheme() {
+            const toggleBtn = document.querySelector('.theme-toggle');
+            const root = document.documentElement;
+            
+            const cachedTheme = localStorage.getItem('aura-v3-theme') || 'light';
+            root.setAttribute('data-theme', cachedTheme);
+            toggleBtn.innerHTML = cachedTheme === 'light' ? '🌙' : '☀️';
+
+            toggleBtn.addEventListener('click', () => {
+                const activeTheme = root.getAttribute('data-theme');
+                const nextTheme = activeTheme === 'light' ? 'dark' : 'light';
+                root.setAttribute('data-theme', nextTheme);
+                localStorage.setItem('aura-v3-theme', nextTheme);
+                toggleBtn.innerHTML = nextTheme === 'light' ? '🌙' : '☀️';
+            });
+        }
+
+        /* --- Dynamic Responsive UI Drawer Logic --- */
+        function initNavigationEngine() {
+            const toggle = document.querySelector('.mobile-toggle');
+            const menu = document.querySelector('.nav-menu');
+            const options = document.querySelectorAll('.nav-link');
+
+            toggle.addEventListener('click', () => {
+                menu.classList.toggle('active');
+                toggle.innerHTML = menu.classList.contains('active') ? '✕' : '☰';
+            });
+
+            options.forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.remove('active');
+                    toggle.innerHTML = '☰';
+                    options.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+        }
+
+        /* --- Menu Pipeline Categorization Optimization Engine --- */
+        function initInteractiveMenuFilter() {
+            const filterContainer = document.querySelector('.filter-nav');
+            const structuralCards = document.querySelectorAll('[data-category]');
+            
+            if (!filterContainer) return;
+
+            filterContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('filter-btn')) {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    
+                    const query = e.target.dataset.filter;
+                    structuralCards.forEach(card => {
+                        if (query === 'all' || card.dataset.category === query) {
+                            card.style.display = 'block';
+                            setTimeout(() => card.style.opacity = '1', 50);
+                        } else {
+                            card.style.opacity = '0';
+                            setTimeout(() => card.style.display = 'none', 300);
+                        }
+                    });
+                }
+            });
+        }
+
+        /* --- Persistent E-Commerce Order State Cache System --- */
+        let memoryBag = JSON.parse(localStorage.getItem('aura-bag-v3-cache')) || [];
+
+        function initShoppingBagEngine() {
+            const modal = document.querySelector('.cart-modal');
+            const launchBtn = document.querySelector('.cart-trigger');
+            const escapeBtn = document.querySelector('.close-cart');
+
+            launchBtn.addEventListener('click', () => modal.classList.add('active'));
+            escapeBtn.addEventListener('click', () => modal.classList.remove('active'));
+
+            document.body.addEventListener('click', (e) => {
+                if (e.target.classList.contains('add-to-cart-btn')) {
+                    const dataset = e.target.dataset;
+                    const transactionalObject = {
+                        id: dataset.id,
+                        name: dataset.name,
+                        price: parseFloat(dataset.price),
+                        qty: 1
+                    };
+
+                    const targetIndex = memoryBag.findIndex(i => i.id === transactionalObject.id);
+                    if (targetIndex > -1) {
+                        memoryBag[targetIndex].qty += 1;
+                    } else {
+                        memoryBag.push(transactionalObject);
+                    }
+                    
+                    localStorage.setItem('aura-bag-v3-cache', JSON.stringify(memoryBag));
+                    syncBagInterface();
+
+                    // Instantly Render Feedback Controls
+                    const originalLabel = e.target.innerText;
+                    e.target.innerText = 'Added ✓';
+                    e.target.style.backgroundColor = '#25D366';
+                    e.target.style.color = '#FFFFFF';
+                    setTimeout(() => {
+                        e.target.innerText = originalLabel;
+                        e.target.style.backgroundColor = '';
+                        e.target.style.color = '';
+                    }, 1200);
+                }
+            });
+
+            syncBagInterface();
+        }
+
+        function syncBagInterface() {
+            const countTargets = document.querySelectorAll('.cart-count');
+            const innerDOMTarget = document.getElementById('cart-items-target');
+            const totalDisplay = document.getElementById('cart-total-val');
+            
+            const compoundQty = memoryBag.reduce((acc, item) => acc + item.qty, 0);
+            countTargets.forEach(el => el.innerText = compoundQty);
+
+            if (!innerDOMTarget) return;
+
+            if (memoryBag.length === 0) {
+                innerDOMTarget.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding:50px 0;">Your current order tracker is empty.</p>';
+                totalDisplay.innerText = '$0.00';
+                return;
+            }
+
+            let programmaticHTML = '';
+            let financialSubtotal = 0;
+
+            memoryBag.forEach((product, idx) => {
+                const combinedRowCost = product.price * product.qty;
+                financialSubtotal += combinedRowCost;
+
+                programmaticHTML += `
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding:20px 0; border-bottom:1px solid rgba(212,175,55,0.12);">
+                        <div>
+                            <h5 style="margin:0; font-size:1rem; font-weight:600;">${product.name}</h5>
+                            <small style="color:var(--text-muted);">$${product.price.toFixed(2)}</small>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <button onclick="alterLineQty(${idx}, -1)" style="border:1px solid var(--accent); background:none; color:var(--text-dark); padding:4px 10px; cursor:pointer; font-weight:700;">-</button>
+                            <span style="font-weight:600; font-size:0.95rem;">${product.qty}</span>
+                            <button onclick="alterLineQty(${idx}, 1)" style="border:1px solid var(--accent); background:none; color:var(--text-dark); padding:4px 10px; cursor:pointer; font-weight:700;">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            innerDOMTarget.innerHTML = programmaticHTML;
+            totalDisplay.innerText = `$${financialSubtotal.toFixed(2)}`;
+        }
+
+        window.alterLineQty = function(index, differential) {
+            memoryBag[index].qty += differential;
+            if (memoryBag[index].qty <= 0) {
+                memoryBag.splice(index, 1);
+            }
+            localStorage.setItem('aura-bag-v3-cache', JSON.stringify(memoryBag));
+            syncBagInterface();
+        };
+
+        /* --- Intersection Observer Metrics Optimization Hook --- */
+        function initStatisticalCounters() {
+            const performanceNodes = document.querySelectorAll('.counter');
+            if (performanceNodes.length === 0) return;
+
+            const structuralObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const targetNode = entry.target;
+                        const dynamicLimit = parseInt(targetNode.dataset.target, 10);
+                        let initialStep = 0;
+                        const speedScale = Math.ceil(dynamicLimit / 35);
+                        
+                        const runningInterval = setInterval(() => {
+                            initialStep += speedScale;
+                            if (initialStep >= dynamicLimit) {
+                                targetNode.innerText = dynamicLimit;
+                                clearInterval(runningInterval);
+                            } else {
+                                targetNode.innerText = initialStep;
+                            }
+                        }, 40);
+                        structuralObserver.unobserve(targetNode);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            performanceNodes.forEach(node => structuralObserver.observe(node));
+        }
+    </script>
 </body>
 </html>
